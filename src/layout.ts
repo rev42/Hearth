@@ -21,6 +21,8 @@ import {
 	type LinkItem,
 	type MobileActionButton,
 	type OperonConfig,
+	type GitlabConfig,
+	type GitlabControl,
 	type JiraConfig,
 	type JiraControl,
 	newDashboardId,
@@ -151,9 +153,9 @@ const RANGE = {
 /**
  * A card with its credentials taken out.
  *
- * SECURITY-REVIEW: Jira PATs authenticate outbound requests and must never be
- * copied into a portable artifact. Only the affected card and config objects are
- * cloned, so the live settings keep their credentials unchanged.
+ * SECURITY-REVIEW: Jira and GitLab PATs authenticate outbound requests and must
+ * never be copied into a portable artifact. Only the affected card and config
+ * objects are cloned, so the live settings keep their credentials unchanged.
  *
  * Exported because every kind of export has to go through it: the layout and
  * settings payloads below, and — since a board can be exported on its own — the
@@ -161,9 +163,14 @@ const RANGE = {
  * everywhere, rather than one per export path.
  */
 export function scrubCard(card: DashboardCard): DashboardCard {
-	return card.jira?.pat === undefined
-		? card
-		: { ...card, jira: { ...card.jira, pat: undefined } };
+	let scrubbed = card;
+	if (scrubbed.jira?.pat !== undefined) {
+		scrubbed = { ...scrubbed, jira: { ...scrubbed.jira, pat: undefined } };
+	}
+	if (scrubbed.gitlab?.pat !== undefined) {
+		scrubbed = { ...scrubbed, gitlab: { ...scrubbed.gitlab, pat: undefined } };
+	}
+	return scrubbed;
 }
 
 /** Build the portable layout payload (the dashboard setup and its globals).
@@ -590,6 +597,9 @@ export function sanitizeCard(raw: unknown, index: number): DashboardCard | null 
 	}
 	if (r.jira !== undefined) {
 		card.jira = sanitizeJira(r.jira);
+	}
+	if (r.gitlab !== undefined) {
+		card.gitlab = sanitizeGitlab(r.gitlab);
 	}
 	if (r.dataview && typeof r.dataview === "object") {
 		card.dataview = sanitizeDataview(r.dataview as Record<string, unknown>);
@@ -1517,6 +1527,48 @@ export function sanitizeJira(raw: unknown): JiraConfig {
 	}
 	if (typeof r.maxResults === "number" && Number.isFinite(r.maxResults)) {
 		cfg.maxResults = Math.max(1, Math.min(200, Math.round(r.maxResults)));
+	}
+	if (typeof r.refreshMin === "number" && Number.isFinite(r.refreshMin)) {
+		cfg.refreshMin = Math.max(0, Math.min(1440, Math.round(r.refreshMin)));
+	}
+	if (typeof r.cacheMin === "number" && Number.isFinite(r.cacheMin)) {
+		cfg.cacheMin = Math.max(0, Math.min(1440, Math.round(r.cacheMin)));
+	}
+	return cfg;
+}
+
+const GITLAB_CONTROLS: GitlabControl[] = ["project", "draft", "pipeline", "approval"];
+
+/** Allowlist and clamp an imported GitLab card configuration. */
+export function sanitizeGitlab(raw: unknown): GitlabConfig {
+	if (!raw || typeof raw !== "object" || Array.isArray(raw)) return {};
+	const r = raw as Record<string, unknown>;
+	const cfg: GitlabConfig = {};
+	const host = str(r.host)?.trim().replace(/\/+$/, "");
+	if (host !== undefined) cfg.host = host;
+	const pat = str(r.pat);
+	if (pat !== undefined) cfg.pat = pat;
+	if (r.scope === "created_by_me" || r.scope === "assigned_to_me") cfg.scope = r.scope;
+	if (Array.isArray(r.controls)) {
+		cfg.controls = r.controls.filter(
+			(control): control is GitlabControl =>
+				typeof control === "string" &&
+				GITLAB_CONTROLS.includes(control as GitlabControl),
+		);
+	}
+	if (r.selections && typeof r.selections === "object" && !Array.isArray(r.selections)) {
+		const rawSelections = r.selections as Record<string, unknown>;
+		cfg.selections = {};
+		for (const control of GITLAB_CONTROLS) {
+			const values = rawSelections[control];
+			if (!Array.isArray(values)) continue;
+			cfg.selections[control] = values.filter(
+				(value): value is string => typeof value === "string",
+			);
+		}
+	}
+	if (typeof r.maxResults === "number" && Number.isFinite(r.maxResults)) {
+		cfg.maxResults = Math.max(1, Math.min(100, Math.round(r.maxResults)));
 	}
 	if (typeof r.refreshMin === "number" && Number.isFinite(r.refreshMin)) {
 		cfg.refreshMin = Math.max(0, Math.min(1440, Math.round(r.refreshMin)));

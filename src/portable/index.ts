@@ -121,8 +121,8 @@ export interface ExportOutcome {
  * Export one board as a file.
  *
  * The board's look is resolved onto it (unless `flatten: false`), pictures are
- * carried if asked for, and the Jira token every export has always scrubbed
- * stays scrubbed — `layoutPayload` does that, and a dashboard capture goes
+ * carried if asked for, and the Jira and GitLab tokens every export has always
+ * scrubbed stay scrubbed — `layoutPayload` does that, and a dashboard capture goes
  * through the same card objects.
  */
 export async function exportDashboardFile(

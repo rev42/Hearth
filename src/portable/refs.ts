@@ -171,6 +171,9 @@ export const CARD_REFERENCE_RULES: readonly ReferenceRule[] = [
 	// jira
 	{ at: "jira.host", scope: "privateHost" },
 
+	// gitlab
+	{ at: "gitlab.host", scope: "privateHost" },
+
 	// weather
 	{ at: "weather.place.name", scope: "place" },
 	{ at: "weather.place.region", scope: "place" },

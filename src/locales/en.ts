@@ -985,7 +985,7 @@ export const en = {
 			effectFrost: "no frosted-glass blur behind cards",
 			effectMotion: "transitions, hover lifts, shadows and animations are off",
 			effectRefresh:
-				"web, RSS, calendar-subscription and Jira cards stop refreshing on a timer (manual refresh still works)",
+				"web, RSS, calendar-subscription, Jira and GitLab cards stop refreshing on a timer (manual refresh still works)",
 			effectLiveRefresh: "the dashboard stops rebuilding itself on vault changes",
 			effectClock: "clock cards drop seconds and the sweeping second hand",
 			effectSlideshow: "slideshow cards hold one picture instead of rotating",
@@ -1112,9 +1112,9 @@ export const en = {
 			disableExternalCalls: "Disable external calls",
 			disableExternalCallsDesc:
 				"Block all outbound network requests Hearth makes, including Jira, " +
-				"external calendars, RSS feeds, the calculator's currency-rate lookup, " +
-				"and background images and title icons given as a web address — those " +
-				"fall back to no picture and the Hearth crystal.",
+				"GitLab, external calendars, RSS feeds, the calculator's " +
+				"currency-rate lookup, and background images and title icons given as " +
+				"a web address — those fall back to no picture and the Hearth crystal.",
 			openIn: "Open notes in",
 			openInDesc:
 				"Where a note goes when you open one from Hearth. \"Current tab\" replaces " +
@@ -1356,6 +1356,12 @@ export const en = {
 					desc:
 						"Jira cards fetch issues from your Jira Cloud or Server instance over " +
 						"its REST API, using credentials you enter on the card.",
+				},
+				gitlab: {
+					name: "GitLab",
+					desc:
+						"GitLab cards list your open merge requests over the REST API, using a " +
+						"personal access token you enter on the card.",
 				},
 				rss: {
 					name: "RSS & Atom feeds",
@@ -1627,6 +1633,7 @@ export const en = {
 			datacore: "Datacore query",
 			rss: "RSS feed",
 			jira: "Jira filter",
+			gitlab: "GitLab merge requests",
 			weather: "Weather",
 			git: "Git",
 			operon: "Operon",
@@ -2866,6 +2873,32 @@ export const en = {
 			cache: "Cache interval (minutes)",
 			cacheDesc: "How long successful Jira responses stay in memory. 0 disables caching.",
 		},
+		gitlab: {
+			host: "GitLab host",
+			hostDesc:
+				"Your GitLab origin — gitlab.com or your own instance. HTTPS is required " +
+				"when sending a personal access token.",
+			hostPlaceholder: "https://gitlab.example.com",
+			pat: "Personal access token",
+			patDesc:
+				"A token with the read_api scope, used for this card. Stored in Hearth's " +
+				"plugin data.",
+			scope: "Merge requests",
+			scopeDesc: "Which of your open merge requests the card lists.",
+			scopes: {
+				created_by_me: "Created by me",
+				assigned_to_me: "Assigned to me",
+			},
+			controls: "Filter controls",
+			maxResults: "Max results",
+			maxResultsDesc: "The most merge requests to fetch, up to 100.",
+			refresh: "Auto-refresh (minutes)",
+			refreshDesc:
+				"How often to refresh GitLab. 0 = only when opened or refreshed manually.",
+			cache: "Cache interval (minutes)",
+			cacheDesc:
+				"How long successful GitLab responses stay in memory. 0 disables caching.",
+		},
 		leaf: {
 			view: "View to host",
 			viewDesc:
@@ -3249,6 +3282,53 @@ export const en = {
 			disabled: "Jira is off (external calls disabled)",
 			notConfigured: "Configure a Jira host, token, and saved filter in card settings",
 		},
+		gitlab: {
+			controls: {
+				project: "Project",
+				draft: "Draft",
+				pipeline: "Pipeline",
+				approval: "Approval",
+			},
+			controlCount: (label: string, count: number) => `${label} (${count})`,
+			searchPlaceholder: "Search options…",
+			searchAria: (label: string) => `Search ${label} options`,
+			noOptions: "No options",
+			noMatchingOptions: "No matching options",
+			refresh: "Refresh merge requests",
+			loading: "Loading merge requests…",
+			error: "Couldn't load merge requests",
+			empty: "No merge requests match these filters",
+			disabled: "GitLab is off (external calls disabled)",
+			notConfigured: "Configure a GitLab host and token in card settings",
+			draftTag: "Draft",
+			draftValues: {
+				draft: "Draft",
+				ready: "Ready",
+			},
+			approvalValues: {
+				approved: "Approved",
+				unapproved: "Not approved",
+			},
+			approvalsLeft: (count: number) =>
+				count === 1 ? "1 approval left" : `${count} approvals left`,
+			/** GitLab's pipeline statuses. An unlisted one shows GitLab's own word
+			 * for it rather than nothing, so a newer status still reads. */
+			pipelineValues: {
+				none: "No pipeline",
+				created: "Created",
+				waiting_for_resource: "Waiting",
+				preparing: "Preparing",
+				pending: "Pending",
+				running: "Running",
+				success: "Passed",
+				failed: "Failed",
+				canceling: "Canceling",
+				canceled: "Canceled",
+				skipped: "Skipped",
+				manual: "Manual",
+				scheduled: "Scheduled",
+			},
+		},
 		git: {
 			sections: {
 				status: "Repository status",
@@ -3619,6 +3699,7 @@ export const en = {
 		datacore: "Datacore query",
 		rss: "RSS feed",
 		jira: "Jira filter",
+		gitlab: "GitLab merge requests",
 		weather: "Weather",
 		git: "Git",
 		"operon-tasks": "Operon tasks",
@@ -3663,6 +3744,7 @@ export const en = {
 		datacore: "A Datacore query or script",
 		rss: "Headlines from the feeds you follow",
 		jira: "Issues from a Jira filter or JQL search",
+		gitlab: "Your open merge requests, with pipeline and approval state",
 		weather: "The forecast for a place you pick",
 		git: "Repository status, with commit, pull and push",
 		"operon-tasks": "Your Operon tasks, filtered the way you like",

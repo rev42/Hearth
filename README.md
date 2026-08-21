@@ -17,8 +17,8 @@ launchers — on desktop and mobile.
 Think of it as a new-tab dashboard, start page and command launcher in one.
 
 - 🔍 **Search everything** — fuzzy, full-text, tags, frontmatter and commands
-- 🧩 **35+ cards** — embeds, tasks, calendars, Dataview, Git, Jira, Operon, and more
-- 🔌 **25 integrations** — picked up automatically when the plugin is enabled
+- 🧩 **36+ cards** — embeds, tasks, calendars, Dataview, Git, Jira, GitLab, Operon, and more
+- 🔌 **26 integrations** — picked up automatically when the plugin is enabled
 - 🎛️ **Free-form layout** — drag, resize and snap cards anywhere
 - 🪟 **Frosted glass** — per-card opacity, blur, color and corner radius
 - 🗂️ **Multiple dashboards** — switch with a click or a hotkey
@@ -222,6 +222,7 @@ Categorized as **Integrations** in the picker.
 | **Datacore query** | A Datacore query, or a full JS/JSX/TS/TSX script rendered by Datacore's views | [Datacore](https://github.com/blacksmithgu/datacore) |
 | **Git** | Branch, staged and changed files, unpushed commits and recent log, with commit / sync / push / pull / stage / discard buttons and per-file diffs | [Git](https://github.com/Vinzent03/obsidian-git) |
 | **Jira filter** | Issues from a saved Jira filter or JQL search, filtered by status, assignee, priority, type, sprint and version | Jira over HTTPS |
+| **GitLab merge requests** | Your open merge requests from gitlab.com or your own instance — project, reference, title, pipeline status and approval state per row, filtered by project, draft, pipeline and approval | GitLab over HTTPS |
 | **RSS feed** | Headlines from any RSS 2.0 or Atom feed you follow | Network |
 | **Weather** | Current conditions and forecast from [Open-Meteo](https://open-meteo.com) in five styles, up to an edge-to-edge painted sky that follows real conditions and time of day — click a card for the full forecast, hour by hour | Network |
 | **Operon tasks / board / agenda / timer** | Four cards on [Operon](https://github.com/hasanyilmaz/operon)'s own API — a task list, a pipeline board, a few days' agenda, and the running time tracker | Operon (desktop) |
@@ -295,6 +296,7 @@ network → Disable external calls**.
 | [Open-Meteo](https://open-meteo.com) | Weather cards and the live weather sky | None. Only the coordinates you pick are sent, and a pinned sky needs no location at all |
 | [Frankfurter](https://www.frankfurter.app/) (ECB rates) | Calculator currency conversion | None |
 | Jira Cloud / Server | Jira cards, over REST with bearer PAT auth | Yours, entered on the card; exports never include the PAT |
+| GitLab.com / self-hosted | GitLab cards, over REST with a `read_api` personal access token | Yours, entered on the card; exports never include the PAT |
 | RSS / Atom feeds | RSS cards | None |
 | ICS / webcal feeds | Mini calendar subscriptions (Google, iCloud, Fastmail, Nextcloud…) | The feed URL |
 | DuckDuckGo, Brave, Kagi, Google, Mojeek, Ecosia, Qwant | The search bar's optional web-search button, whichever engine you pick for it | None |

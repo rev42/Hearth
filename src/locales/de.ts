@@ -1366,6 +1366,12 @@ export const de: Translations = {
 						"Jira-Karten rufen Vorgänge aus deiner Jira-Cloud- oder Server-Instanz über " +
 						"dessen REST-API ab, mit Zugangsdaten, die du auf der Karte eingibst.",
 				},
+				gitlab: {
+					name: "GitLab",
+					desc:
+						"GitLab-Karten listen deine offenen Merge Requests über die REST-API auf, mit " +
+						"einem persönlichen Zugangstoken, den du auf der Karte eingibst.",
+				},
 				rss: {
 					name: "RSS- und Atom-Feeds",
 					desc: "RSS-Karten rufen jeden RSS-2.0- oder Atom-Feed ab und parsen ihn, auf den du sie zeigst.",
@@ -1634,6 +1640,7 @@ export const de: Translations = {
 			datacore: "Datacore-Abfrage",
 			rss: "RSS-Feed",
 			jira: "Jira-Filter",
+			gitlab: "GitLab-Merge-Requests",
 			weather: "Wetter",
 			git: "Git",
 			operon: "Operon",
@@ -2874,6 +2881,32 @@ export const de: Translations = {
 			cache: "Cache-Intervall (Minuten)",
 			cacheDesc: "Wie lange erfolgreiche Jira-Antworten im Speicher bleiben. 0 deaktiviert das Caching.",
 		},
+		gitlab: {
+			host: "GitLab-Host",
+			hostDesc:
+				"Die Adresse deiner GitLab-Instanz - gitlab.com oder deine eigene. HTTPS ist " +
+				"erforderlich, wenn ein persönlicher Zugangstoken gesendet wird.",
+			hostPlaceholder: "https://gitlab.example.com",
+			pat: "Persönlicher Zugangstoken",
+			patDesc:
+				"Ein Token mit dem Bereich read_api, für diese Karte verwendet. In den " +
+				"Plugin-Daten von Hearth gespeichert.",
+			scope: "Merge Requests",
+			scopeDesc: "Welche deiner offenen Merge Requests die Karte auflistet.",
+			scopes: {
+				created_by_me: "Von mir erstellt",
+				assigned_to_me: "Mir zugewiesen",
+			},
+			controls: "Filtersteuerung",
+			maxResults: "Max. Ergebnisse",
+			maxResultsDesc: "Die meisten abzurufenden Merge Requests, bis zu 100.",
+			refresh: "Automatisch aktualisieren (Minuten)",
+			refreshDesc:
+				"Wie oft GitLab aktualisiert wird. 0 = nur beim Öffnen oder manuellem Aktualisieren.",
+			cache: "Cache-Intervall (Minuten)",
+			cacheDesc:
+				"Wie lange erfolgreiche GitLab-Antworten im Speicher bleiben. 0 deaktiviert das Caching.",
+		},
 		leaf: {
 			view: "Zu hostende Ansicht",
 			viewDesc:
@@ -3253,6 +3286,51 @@ export const de: Translations = {
 			disabled: "Jira ist aus (externe Aufrufe deaktiviert)",
 			notConfigured: "Lege Jira-Host, Token und gespeicherten Filter in den Karteneinstellungen fest",
 		},
+		gitlab: {
+			controls: {
+				project: "Projekt",
+				draft: "Entwurf",
+				pipeline: "Pipeline",
+				approval: "Freigabe",
+			},
+			controlCount: (label: string, count: number) => `${label} (${count})`,
+			searchPlaceholder: "Optionen suchen…",
+			searchAria: (label: string) => `Suche ${label}-Optionen`,
+			noOptions: "Keine Optionen",
+			noMatchingOptions: "Keine passenden Optionen",
+			refresh: "Merge Requests aktualisieren",
+			loading: "Lade Merge Requests…",
+			error: "Merge Requests konnten nicht geladen werden",
+			empty: "Keine Merge Requests passen zu diesen Filtern",
+			disabled: "GitLab ist aus (externe Aufrufe deaktiviert)",
+			notConfigured: "Lege GitLab-Host und Token in den Karteneinstellungen fest",
+			draftTag: "Entwurf",
+			draftValues: {
+				draft: "Entwurf",
+				ready: "Fertig",
+			},
+			approvalValues: {
+				approved: "Freigegeben",
+				unapproved: "Nicht freigegeben",
+			},
+			approvalsLeft: (count: number) =>
+				count === 1 ? "1 Freigabe fehlt" : `${count} Freigaben fehlen`,
+			pipelineValues: {
+				none: "Keine Pipeline",
+				created: "Erstellt",
+				waiting_for_resource: "Wartet",
+				preparing: "Wird vorbereitet",
+				pending: "Ausstehend",
+				running: "Läuft",
+				success: "Bestanden",
+				failed: "Fehlgeschlagen",
+				canceling: "Wird abgebrochen",
+				canceled: "Abgebrochen",
+				skipped: "Übersprungen",
+				manual: "Manuell",
+				scheduled: "Geplant",
+			},
+		},
 		git: {
 			sections: {
 				status: "Repository-Status",
@@ -3622,6 +3700,7 @@ export const de: Translations = {
 		datacore: "Datacore-Abfrage",
 		rss: "RSS-Feed",
 		jira: "Jira-Filter",
+		gitlab: "GitLab-Merge-Requests",
 		weather: "Wetter",
 		git: "Git",
 		"operon-tasks": "Operon-Aufgaben",
@@ -3666,6 +3745,7 @@ export const de: Translations = {
 		datacore: "Eine Datacore-Abfrage oder ein Skript",
 		rss: "Schlagzeilen aus den Feeds, denen du folgst",
 		jira: "Vorgänge aus einem Jira-Filter oder einer JQL-Suche",
+		gitlab: "Deine offenen Merge Requests, mit Pipeline- und Freigabestatus",
 		weather: "Die Vorhersage für einen Ort deiner Wahl",
 		git: "Repository-Status, mit Commit, Pull und Push",
 		"operon-tasks": "Deine Operon-Aufgaben, gefiltert nach deinen Wünschen",

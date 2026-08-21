@@ -11,6 +11,36 @@ preceding beta series.
 History begins at 1.5.0. For releases before 1.5.0, see the
 [GitHub Releases](https://github.com/ondreu/Hearth/releases) page.
 
+## [Unreleased]
+
+### Added
+
+- **A GitLab merge-request card.** **Integrations → GitLab merge requests** is
+  your own open merge requests on the board, next to the Jira card and built the
+  same way: a host, a personal access token with the `read_api` scope, and the
+  card fetches for itself over GitLab's REST API. Self-hosted instances work —
+  the host is whatever you type, including one served under a subpath — and the
+  token never leaves the card: it is stored in Hearth's plugin data and stripped
+  from every layout and settings export, exactly as the Jira PAT is.
+
+  **A row is one merge request**: its project path, its `!123` reference, its
+  title, and a pipeline badge — passed, failed, running, or no pipeline at all —
+  with an approval badge beside it saying whether the approvals are in or how
+  many are still missing. Clicking a row opens the merge request in the browser.
+  Choose between the ones you created and the ones assigned to you, and refine
+  what is listed with chips over project, draft state, pipeline status and
+  approval state.
+
+  **Refinement is local, and the chips only offer what the data can back.**
+  GitLab's merge-request list can filter on neither pipeline status nor approval
+  state, so the card fetches once and filters the rows it already holds — no
+  refetch when you tick a chip. It also means the list is enriched: GitLab's
+  list response carries neither the head pipeline nor approval state, so each
+  row costs two more requests, run a few at a time and cached for as long as the
+  card's cache interval says. A row whose enrichment failed shows no badge
+  rather than a guess, and the manual refresh and the optional auto-refresh
+  interval work as they do on the Jira card.
+
 ## [3.1.1]
 
 ### Added
@@ -103,7 +133,6 @@ History begins at 1.5.0. For releases before 1.5.0, see the
   starting, shows the same temporary not-ready state it shows while obsidian-git
   is looking for the repository, and fills itself in as soon as the plugin is
   usable ([#315](https://github.com/ondreu/Hearth/issues/315)).
-
 
 ## [3.1.0]
 

@@ -128,6 +128,25 @@ describe("CARD_TEMPLATES (add-card menu)", () => {
 					h: 5,
 				},
 			},
+			{
+				id: "gitlab",
+				icon: "git-pull-request",
+				category: "integrations",
+				requires: null,
+				build: {
+					kind: "gitlab",
+					title: "GitLab",
+					gitlab: {
+						scope: "created_by_me",
+						controls: ["project", "draft", "pipeline", "approval"],
+						maxResults: 25,
+						refreshMin: 0,
+						cacheMin: 5,
+					},
+					w: 6,
+					h: 5,
+				},
+			},
 			{ id: "rss", icon: "rss", category: "integrations", requires: null, build: { kind: "rss", title: "RSS", rss: { sources: [] }, w: 4, h: 5 } },
 			{
 				id: "weather",
@@ -276,6 +295,10 @@ function maximalCard(): DashboardCard {
 			controls: ["status"],
 			selections: { status: ["Open"] },
 		} as never,
+		gitlab: {
+			controls: ["project"],
+			selections: { project: ["group/app"] },
+		} as never,
 		weather: { place: { name: "Prague", lat: 50.08, lon: 14.44 } },
 		git: { sections: ["status", "actions"], actions: ["commit", "push"] },
 		pet: { species: "fox", name: "Vulpes" },
@@ -330,6 +353,8 @@ describe("cloneCard deep-clone independence", () => {
 		copy.rss!.sources!.push({ id: "s2", name: "Feed 2", url: "https://example.com/feed2" });
 		copy.jira!.controls!.push("assignee");
 		copy.jira!.selections!.status!.push("Closed");
+		copy.gitlab!.controls!.push("draft");
+		copy.gitlab!.selections!.project!.push("group/other");
 		copy.weather!.place!.name = "Brno";
 		copy.git!.sections!.push("log");
 		copy.git!.actions!.push("pull");
@@ -361,6 +386,7 @@ describe("cloneCard deep-clone independence", () => {
 		expect(orig.datacore).toEqual(pristine.datacore);
 		expect(orig.rss).toEqual(pristine.rss);
 		expect(orig.jira).toEqual(pristine.jira);
+		expect(orig.gitlab).toEqual(pristine.gitlab);
 		expect(orig.weather).toEqual(pristine.weather);
 		expect(orig.git).toEqual(pristine.git);
 		expect(orig.pet).toEqual(pristine.pet);
@@ -403,6 +429,7 @@ describe("liveness classification", () => {
 			datacore: "static",
 			rss: "static",
 			jira: "static",
+			gitlab: "static",
 			weather: "static",
 			git: "static",
 			operon: "vault",

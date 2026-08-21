@@ -96,6 +96,7 @@ export type IntegrationId =
 	| "audioRecorder"
 	| "leafViews"
 	| "jira"
+	| "gitlab"
 	| "rss"
 	| "ics"
 	| "currency"
@@ -229,6 +230,7 @@ export const INTEGRATIONS: readonly IntegrationEntry[] = [
 
 	// ---- External services -------------------------------------------------
 	{ id: "jira", group: "service", where: { kind: "card" } },
+	{ id: "gitlab", group: "service", where: { kind: "card" } },
 	{ id: "rss", group: "service", where: { kind: "card" } },
 	{ id: "ics", group: "service", where: { kind: "card" } },
 	{ id: "currency", group: "service", where: { kind: "none" } },
