@@ -40,6 +40,7 @@ export type CardKind =
 	| "datacore"
 	| "rss"
 	| "jira"
+	| "gitlab"
 	| "weather"
 	| "git"
 	| "operon"
@@ -75,6 +76,37 @@ export interface JiraConfig {
 	/** Persisted multi-select refinements. */
 	selections?: JiraSelections;
 	/** Maximum issues shown by the refined query. Default 50. */
+	maxResults?: number;
+	/** Automatic refresh interval in minutes. 0 disables it. */
+	refreshMin?: number;
+	/** In-memory request cache interval in minutes. Default 5. */
+	cacheMin?: number;
+}
+
+/** A refinement control available on a GitLab merge-request card. */
+export type GitlabControl = "project" | "draft" | "pipeline" | "approval";
+
+/** Selected values for each GitLab refinement control. Missing keys are
+ * unfiltered. */
+export type GitlabSelections = Partial<Record<GitlabControl, string[]>>;
+
+/** Which of your merge requests a GitLab card lists. */
+export type GitlabScope = "created_by_me" | "assigned_to_me";
+
+/** Per-card connection, refinement, and refresh settings for GitLab. */
+export interface GitlabConfig {
+	/** GitLab origin, including the https scheme but no API path. */
+	host?: string;
+	/** Personal access token (`read_api` scope is enough). Stored in Obsidian
+	 * plugin data. */
+	pat?: string;
+	/** Which merge requests to list. Default `created_by_me`. */
+	scope?: GitlabScope;
+	/** Refinement controls shown above the merge-request list. */
+	controls?: GitlabControl[];
+	/** Persisted multi-select refinements, applied locally. */
+	selections?: GitlabSelections;
+	/** Maximum merge requests fetched. Default 25, GitLab's ceiling is 100. */
 	maxResults?: number;
 	/** Automatic refresh interval in minutes. 0 disables it. */
 	refreshMin?: number;
@@ -1546,6 +1578,8 @@ export interface DashboardCard {
 	rss?: RssConfig;
 	/** kind === "jira": connection, saved filter, and refinement options. */
 	jira?: JiraConfig;
+	/** kind === "gitlab": connection, scope, and refinement options. */
+	gitlab?: GitlabConfig;
 	/** kind === "weather": place, style, units and what to display. */
 	weather?: WeatherConfig;
 	/** kind === "git": sections, action buttons and commit behaviour. */
@@ -2163,8 +2197,8 @@ export interface HomeSettings {
 	 * nobody can read. Turn it off to keep the scaled free-form layout. */
 	stackOnNarrow: boolean;
 	/** Block all outbound network requests Hearth would otherwise make. The only
-	 * requests are configured live-content cards (including Jira) and the
-	 * calculator's key-less, ECB-backed currency-rate fetch. */
+	 * requests are configured live-content cards (including Jira and GitLab) and
+	 * the calculator's key-less, ECB-backed currency-rate fetch. */
 	disableExternalCalls: boolean;
 
 	// ---- Opening notes ----

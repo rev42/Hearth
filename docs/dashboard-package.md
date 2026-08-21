@@ -492,7 +492,7 @@ of its own.
 ## Credentials
 
 Every export path runs `scrubCard()` from `src/layout.ts`, which removes a Jira
-card's personal access token. It is one exported function precisely so a new
+card's and a GitLab card's personal access token. It is one exported function precisely so a new
 export path cannot forget it — if you add a field that holds a credential, add
 it there.
 

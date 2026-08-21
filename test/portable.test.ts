@@ -857,6 +857,22 @@ describe("what a package refuses to carry", () => {
 		expect(mine.dashboards[0].cards[0].jira?.pat).toBe("super-secret-token");
 	});
 
+	it("scrubs the GitLab token", () => {
+		const mine = opinionatedVault();
+		mine.dashboards[0].cards = [
+			card({
+				id: "c1",
+				kind: "gitlab",
+				gitlab: { host: "https://gitlab.internal", pat: "super-secret-token" },
+			}),
+		];
+
+		const json = serializePackage(captureDashboard(mine, mine.dashboards[0]));
+
+		expect(json).not.toContain("super-secret-token");
+		expect(mine.dashboards[0].cards[0].gitlab?.pat).toBe("super-secret-token");
+	});
+
 	it("omits the bookkeeping a shared backup shouldn't rewind", () => {
 		const mine = opinionatedVault();
 		mine.lastSeenVersion = "3.0.0";

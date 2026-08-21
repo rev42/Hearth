@@ -1229,6 +1229,12 @@ export const zh: Translations = {
 						"Jira 卡片通过 REST API 从您的 Jira Cloud 或 Server 实例获取事项，" +
 						"使用您在卡片上填入的凭据。",
 				},
+				gitlab: {
+					name: "GitLab",
+					desc:
+						"GitLab 卡片通过 REST API 列出您打开的合并请求，" +
+						"使用您在卡片上填入的个人访问令牌。",
+				},
 				rss: {
 					name: "RSS 与 Atom 订阅",
 					desc: "RSS 卡片可获取并解析您指定的任何 RSS 2.0 或 Atom 源。",
@@ -1472,6 +1478,7 @@ export const zh: Translations = {
 			datacore: "Datacore 查询",
 			rss: "RSS 订阅",
 			jira: "Jira 筛选器",
+			gitlab: "GitLab 合并请求",
 			weather: "天气",
 			git: "Git",
 			operon: "Operon",
@@ -2608,6 +2615,28 @@ export const zh: Translations = {
 			cache: "缓存间隔（分钟）",
 			cacheDesc: "成功的 Jira 响应在内存中保留多久。0 表示禁用缓存。",
 		},
+		gitlab: {
+			host: "GitLab 主机",
+			hostDesc:
+				"您的 GitLab 源地址 — gitlab.com 或您自己的实例。" +
+				"发送个人访问令牌时必须使用 HTTPS。",
+			hostPlaceholder: "https://gitlab.example.com",
+			pat: "个人访问令牌",
+			patDesc: "此卡片使用的、具有 read_api 权限的令牌。存储在 Hearth 的插件数据中。",
+			scope: "合并请求",
+			scopeDesc: "卡片列出您打开的哪一类合并请求。",
+			scopes: {
+				created_by_me: "我创建的",
+				assigned_to_me: "指派给我的",
+			},
+			controls: "筛选控件",
+			maxResults: "最大结果数",
+			maxResultsDesc: "最多获取多少条合并请求，上限 100。",
+			refresh: "自动刷新（分钟）",
+			refreshDesc: "多久刷新一次 GitLab。0 = 仅在打开或手动刷新时。",
+			cache: "缓存间隔（分钟）",
+			cacheDesc: "成功的 GitLab 响应在内存中保留多久。0 表示禁用缓存。",
+		},
 		leaf: {
 			view: "要承载的视图",
 			viewDesc:
@@ -2975,6 +3004,50 @@ export const zh: Translations = {
 			disabled: "Jira 已关闭（对外调用被禁用）",
 			notConfigured: "请在卡片设置中配置 Jira 主机、令牌和已保存的筛选器",
 		},
+		gitlab: {
+			controls: {
+				project: "项目",
+				draft: "草稿",
+				pipeline: "流水线",
+				approval: "审批",
+			},
+			controlCount: (label: string, count: number) => `${label}（${count}）`,
+			searchPlaceholder: "搜索选项…",
+			searchAria: (label: string) => `搜索 ${label} 选项`,
+			noOptions: "没有选项",
+			noMatchingOptions: "没有匹配的选项",
+			refresh: "刷新合并请求",
+			loading: "正在加载合并请求…",
+			error: "无法加载合并请求",
+			empty: "没有合并请求符合这些筛选条件",
+			disabled: "GitLab 已关闭（对外调用被禁用）",
+			notConfigured: "请在卡片设置中配置 GitLab 主机和令牌",
+			draftTag: "草稿",
+			draftValues: {
+				draft: "草稿",
+				ready: "就绪",
+			},
+			approvalValues: {
+				approved: "已审批",
+				unapproved: "未审批",
+			},
+			approvalsLeft: (count: number) => `还差 ${count} 个审批`,
+			pipelineValues: {
+				none: "无流水线",
+				created: "已创建",
+				waiting_for_resource: "等待资源",
+				preparing: "准备中",
+				pending: "排队中",
+				running: "运行中",
+				success: "已通过",
+				failed: "已失败",
+				canceling: "正在取消",
+				canceled: "已取消",
+				skipped: "已跳过",
+				manual: "手动",
+				scheduled: "已计划",
+			},
+		},
 		git: {
 			sections: {
 				status: "存储库状态",
@@ -3331,6 +3404,7 @@ export const zh: Translations = {
 		datacore: "Datacore 查询",
 		rss: "RSS 订阅",
 		jira: "Jira 筛选器",
+		gitlab: "GitLab 合并请求",
 		weather: "天气",
 		git: "Git",
 		"operon-tasks": "Operon 任务",
@@ -3374,6 +3448,7 @@ export const zh: Translations = {
 		datacore: "一条 Datacore 查询或脚本",
 		rss: "您关注的订阅源的头条",
 		jira: "来自 Jira 筛选器或 JQL 搜索的事项",
+		gitlab: "您打开的合并请求，含流水线与审批状态",
 		weather: "您所选地点的天气预报",
 		git: "存储库状态，并可提交、拉取和推送",
 		"operon-tasks": "您的 Operon 任务，按您的喜好筛选",
