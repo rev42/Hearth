@@ -41,6 +41,18 @@ History begins at 1.5.0. For releases before 1.5.0, see the
   rather than a guess, and the manual refresh and the optional auto-refresh
   interval work as they do on the Jira card.
 
+### Fixed
+
+- **A card whose type this Hearth doesn't have says so, instead of going
+  blank.** A board can outlive the build that drew it — a `data.json` written by
+  a newer Hearth and then downgraded, a sync conflict, or a plugin update that
+  replaced a build you compiled yourself and carried a card type no release has.
+  The card's data and its slot survived either way, but its body was drawn
+  empty: a panel under its own title with no rows, no controls, no message and
+  nothing in the console, which looks exactly like a card that loaded and found
+  nothing. It now names the missing type and tells you the two ways out — update
+  Hearth, or pick another type in the card's settings.
+
 ## [3.1.0]
 
 ### Added

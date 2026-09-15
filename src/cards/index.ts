@@ -7,6 +7,7 @@ import type {
 	CardTemplateDef,
 } from "./definition";
 import { t } from "../i18n";
+import { emptyState } from "../cardbodies";
 
 import { embedCard } from "./embed";
 import { slideshowCard } from "./slideshow";
@@ -95,16 +96,25 @@ export const CARD_DEFINITIONS: { [K in CardKind]: CardDefinition<K> } = {
 export const CARD_KINDS = Object.keys(CARD_DEFINITIONS) as CardKind[];
 
 /** Inert definition served for a kind this build doesn't know — persisted data
- * written by a newer Hearth version (then downgraded), a sync conflict, or a
- * hand-edited data.json. The card renders an empty body (the old render
- * switch's default) instead of a lookup on `undefined` taking down the whole
- * dashboard render; the card itself keeps its data and its slot, and the
- * editor's type dropdown still offers every known kind as a way out. */
+ * written by a newer Hearth version (then downgraded), a sync conflict, a
+ * hand-edited data.json, or a plugin update that replaced a locally built
+ * Hearth carrying a kind the release does not have. The lookup stays total, so
+ * one alien card cannot take down the whole dashboard render; the card keeps
+ * its data and its slot, and the editor's type dropdown still offers every
+ * known kind as a way out.
+ *
+ * It used to render an empty body (the old render switch's default), which made
+ * that card a blank panel under its own title — no rows, no controls, no
+ * message, nothing in the console. Indistinguishable from a card that loaded
+ * and found nothing, and the one failure a user cannot diagnose. It says what
+ * happened instead. */
 const UNKNOWN_CARD_DEFINITION: CardDefinition = {
 	// Never dispatched on: dispatch happens on the card's own (unknown) kind.
 	kind: "text",
 	templates: [],
-	render: () => {},
+	render: (_view, card, body) => {
+		emptyState(body, "circle-help", t().cards.empty.unknownKind(card.kind));
+	},
 	liveness: { mode: "static" },
 };
 

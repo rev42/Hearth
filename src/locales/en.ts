@@ -2994,6 +2994,11 @@ export const en = {
 	// ---- Card bodies (rendered content) --------------------------------
 	cards: {
 		empty: {
+			/** Shown in place of a card whose saved `kind` this build has no code
+			 * for. Names the kind, because the user's next move depends on it:
+			 * update Hearth, or switch the card to a type this build has. */
+			unknownKind: (kind: string) =>
+				`This Hearth has no “${kind}” card. Update Hearth, or pick another card type in this card's settings.`,
 			searchNoQuery: "Set a query in card settings",
 			searchNoMatches: "No matches",
 			embedPickFile: "Pick a file to embed in settings",
