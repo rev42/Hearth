@@ -439,6 +439,22 @@ describe("liveness classification", () => {
 	});
 });
 
+/** The two DOM calls `emptyState()` makes, on a stub small enough to live in a
+ * node-environment test: `createDiv(cls)` and `createDiv({ cls, text })`. */
+function fakeBody(): { el: HTMLElement; text: () => string } {
+	const texts: string[] = [];
+	const make = (arg?: string | { cls?: string; text?: string }): unknown => {
+		if (arg && typeof arg === "object" && typeof arg.text === "string") {
+			texts.push(arg.text);
+		}
+		return { createDiv: make };
+	};
+	return {
+		el: { createDiv: make } as unknown as HTMLElement,
+		text: () => texts.join(" "),
+	};
+}
+
 describe("cardDefinition", () => {
 	it("serves an inert fallback for a kind this build doesn't know", () => {
 		// Persisted data can outrun the code: a data.json written by a newer
@@ -449,6 +465,24 @@ describe("cardDefinition", () => {
 		expect(def).toBeDefined();
 		expect(def.liveness).toEqual({ mode: "static" });
 		expect("renderEditor" in def).toBe(false);
-		expect(() => def.render(null as never, alien, null as never, null as never)).not.toThrow();
+		const body = fakeBody();
+		expect(() => def.render(null as never, alien, body.el, null as never)).not.toThrow();
+	});
+
+	it("says so on the card instead of leaving a blank panel", () => {
+		// The regression: a locally built Hearth carrying a card kind no release
+		// has (the GitLab card, in the case this was found in) is replaced by a
+		// community-plugin update. The card survives in data.json, the build has
+		// no code for its kind, and the fallback drew nothing — a panel with a
+		// title and an empty body, no controls and no message, nothing thrown.
+		// The kind is named, so the message tells the user which card lost its
+		// code. An unregistered kind is used here because `gitlab` is registered
+		// in this build, which is the whole point: only the build that lacks it
+		// takes this path.
+		const alien = { id: "a", x: 0, y: 0, w: 1, h: 1, kind: "hologram" } as unknown as DashboardCard;
+		const body = fakeBody();
+		cardDefinition(alien).render(null as never, alien, body.el, null as never);
+		expect(body.text()).not.toBe("");
+		expect(body.text()).toContain("hologram");
 	});
 });

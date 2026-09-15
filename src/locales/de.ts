@@ -3035,6 +3035,8 @@ export const de: Translations = {
 	// ---- Karteninhalte (dargestellter Inhalt) --------------------------------
 	cards: {
 		empty: {
+			unknownKind: (kind: string) =>
+				`Dieses Hearth kennt keine „${kind}“-Karte. Aktualisiere Hearth oder wähle in den Einstellungen dieser Karte einen anderen Kartentyp.`,
 			searchNoQuery: "Lege eine Abfrage in den Karteneinstellungen fest",
 			searchNoMatches: "Keine Treffer",
 			embedPickFile: "Wähle eine Datei zum Einbetten in den Einstellungen",

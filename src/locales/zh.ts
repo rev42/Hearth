@@ -2786,6 +2786,8 @@ export const zh: Translations = {
 	// ---- Card bodies (rendered content) --------------------------------
 	cards: {
 		empty: {
+			unknownKind: (kind: string) =>
+				`此版本的 Hearth 没有“${kind}”卡片。请更新 Hearth，或在该卡片的设置中选择其他卡片类型。`,
 			searchNoQuery: "请在卡片设置中设定查询",
 			searchNoMatches: "无匹配项",
 			embedPickFile: "请在设置中选择要嵌入的文件",
